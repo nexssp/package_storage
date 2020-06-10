@@ -18,8 +18,22 @@ if (NexssStdout.storageFilename) {
 const fs = require("fs");
 let newData = {};
 
-for (i = 0; i < NexssStdout.nxsIn.length; i = i + 2) {
-  newData[NexssStdout.nxsIn[i]] = NexssStdout.nxsIn[i + 1];
+// console.log(NexssStdout.nxsIn);
+
+if (NexssStdout.nxsIn.length === 1) {
+  // parameter has, which allows to store multiple values at once
+  if (NexssStdout.nxsIn[0].indexOf(",") > -1) {
+    const fields = NexssStdout.nxsIn[0].split(",");
+    for (i = 0; i < fields; i++) {
+      newData[fields[i]] = NexssStdout[fields[i]];
+    }
+  } else if (NexssStdout[NexssStdout.nxsIn[0]]) {
+    newData[NexssStdout.nxsIn[0]] = NexssStdout[NexssStdout.nxsIn[0]];
+  }
+} else {
+  for (i = 0; i < NexssStdout.nxsIn.length; i = i + 2) {
+    newData[NexssStdout.nxsIn[i]] = NexssStdout.nxsIn[i + 1];
+  }
 }
 
 data = {};
@@ -30,12 +44,12 @@ if (fs.existsSync(storageFilename)) {
     data = require(NexssStdout.cwd + "/" + storageFilename);
 }
 
+Object.assign(NexssStdout, newData);
 Object.assign(data, newData);
 
 fs.writeFileSync(storageFilename, JSON.stringify(data));
 // NexssStdout.nxsOut = result;
 
-NexssStdout.nxsOut = newData;
 delete NexssStdout.nxsIn;
 delete NexssStdout.resultField_1;
 delete NexssStdout.storageFilename;
