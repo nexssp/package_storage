@@ -5,6 +5,13 @@ const {
 const NexssIn = require(`${process.env.NEXSS_PACKAGES_PATH}/Nexss/Lib/NexssIn.js`);
 let NexssStdout = NexssIn();
 
+if (!NexssStdout.cwd) {
+  nxsError(
+    "Current working directory not set in the data. Make sure this program is run from Nexss Programmer. Program exit"
+  );
+  process.exit();
+}
+
 process.chdir(NexssStdout.cwd);
 
 if (!NexssStdout.nxsIn) {
