@@ -9,6 +9,7 @@ if (!NexssStdout.cwd) {
   nxsError(
     "Current working directory not set in the data. Make sure this program is run from Nexss Programmer. Program exit"
   );
+  console.error(NexssStdout);
   process.exit();
 }
 
